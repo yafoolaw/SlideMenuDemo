@@ -2,7 +2,7 @@
 //  LeftViewController.swift
 //  SlideMenuDemo
 //
-//  Created by 刘延峰 on 15/11/5.
+//  Created by FrankLiu on 15/11/5.
 //  Copyright © 2015年 刘大帅. All rights reserved.
 //
 
@@ -12,24 +12,20 @@ class LeftViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.backgroundColor = UIColor.whiteColor()
+        
+        let button: UIButton = UIButton(type: .Custom)
+        button.backgroundColor = UIColor.orangeColor()
+        button.setTitle("跳转", forState: .Normal)
+        button.frame = CGRectMake(0, 80, 100, 40)
+        view.addSubview(button)
+        button.addTarget(self, action: "buttonAction", forControlEvents: .TouchUpInside)
 
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func buttonAction() {
+    
+//        self.slideMenuController()?.changeMainViewController(self)
     }
-    */
-
 }

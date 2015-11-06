@@ -2,7 +2,7 @@
 //  SlideMenuController.swift
 //  SlideMenuDemo
 //
-//  Created by 刘延峰 on 15/11/5.
+//  Created by FrankLiu on 15/11/5.
 //  Copyright © 2015年 刘大帅. All rights reserved.
 //
 
@@ -15,23 +15,19 @@ struct SlideMenuOptions {
     static var contentViewScale:  CGFloat = 0.9
 }
 
-class SlideMenuController: UIViewController, UIGestureRecognizerDelegate {
+public class SlideMenuController: UIViewController, UIGestureRecognizerDelegate {
     
     // MARK: 变量
     var mainContainerView  = UIView()
     var leftContainerView  = UIView()
-    var rightContainerView = UIView()
+    
     var mainVC:  UIViewController?
     var leftVC:  UIViewController?
-    var rightVC: UIViewController?
     
-    var leftPanGesture:  UIPanGestureRecognizer?
-    var rightPanGesture: UIPanGestureRecognizer?
     var leftTapGesture:  UITapGestureRecognizer?
-    var rightTapGesture: UITapGestureRecognizer?
     
     // MARK: 基本初始化
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         
         super.init(coder: aDecoder)
     }
@@ -52,29 +48,16 @@ class SlideMenuController: UIViewController, UIGestureRecognizerDelegate {
         initView()
         
     }
-    
-    convenience init(mainViewController: UIViewController, rightMenuViewController: UIViewController) {
-    
-        self.init()
-        
-        mainVC  = mainViewController
-        rightVC = rightMenuViewController
-        
-        initView()
-    }
-    
-    convenience init(mainViewController: UIViewController, leftMenuViewController: UIViewController, rightMenuViewController: UIViewController) {
-    
-        self.init()
-        
-        mainVC  = mainViewController
-        leftVC  = leftMenuViewController
-        rightVC = rightMenuViewController
-    }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
 
+    }
+    
+    public override func viewWillLayoutSubviews() {
+        
+        setUpViewController(mainContainerView, targetViewController: mainVC)
+        setUpViewController(leftContainerView, targetViewController: leftVC)
     }
     
     func initView() {
@@ -85,21 +68,19 @@ class SlideMenuController: UIViewController, UIGestureRecognizerDelegate {
         view.insertSubview(mainContainerView, atIndex: 0)
         
         // leftContainerView
-        leftContainerView = UIView(frame: view.bounds)
+        var leftFrame: CGRect = view.bounds
+        leftFrame.size.width = SlideMenuOptions.leftViewWidth
+        leftFrame.origin.x = leftMinOrigin()
+        
+        leftContainerView = UIView(frame: leftFrame)
         leftContainerView.backgroundColor = UIColor.clearColor()
         view.insertSubview(leftContainerView, atIndex: 1)
         
-        // rightContainerView
-        rightContainerView = UIView(frame: view.bounds)
-        rightContainerView.backgroundColor = UIColor.clearColor()
-        view.insertSubview(rightContainerView, atIndex: 2)
-        
         addLeftGesture()
-        addRightGesture()
     }
     
     // MARK: 手势相关方法
-    func addLeftGesture() {
+   public func addLeftGesture() {
     
         if leftVC != nil {
         
@@ -110,37 +91,10 @@ class SlideMenuController: UIViewController, UIGestureRecognizerDelegate {
                 view.addGestureRecognizer(leftTapGesture!)
             }
             
-            if leftPanGesture == nil {
-            
-                leftPanGesture = UIPanGestureRecognizer(target: self, action: "handleLeftPanGesture:")
-                leftPanGesture?.delegate = self
-                view.addGestureRecognizer(leftPanGesture!)
-            }
-            
         }
     }
     
-    func addRightGesture() {
-    
-        if rightVC != nil {
-        
-            if rightTapGesture == nil {
-            
-                rightTapGesture = UITapGestureRecognizer(target: self, action: "toggleRight")
-                rightTapGesture?.delegate = self
-                view.addGestureRecognizer(rightTapGesture!)
-            }
-            
-            if rightPanGesture == nil {
-            
-                rightPanGesture = UIPanGestureRecognizer(target: self, action: "handleRightPanGesture:")
-                rightPanGesture?.delegate = self
-                view.addGestureRecognizer(rightPanGesture!)
-            }
-        }
-    }
-    
-    func toggleLeft() {
+    override func toggleLeft() {
     
         if isLeftOpen() {
         
@@ -167,7 +121,7 @@ class SlideMenuController: UIViewController, UIGestureRecognizerDelegate {
         return -SlideMenuOptions.leftViewWidth
     }
     
-    func openLeft() {
+    override func openLeft() {
     
         leftVC?.beginAppearanceTransition(isLeftHidden(), animated: true)
         openLeftWithVelocity(0)
@@ -178,7 +132,7 @@ class SlideMenuController: UIViewController, UIGestureRecognizerDelegate {
         let xOrigin: CGFloat = leftContainerView.frame.origin.x
         let finalXOrigin: CGFloat = 0
         
-        var frame = leftContainerView.frame
+        var frame: CGRect = leftContainerView.frame
         
         frame.origin.x = finalXOrigin
         
@@ -196,6 +150,7 @@ class SlideMenuController: UIViewController, UIGestureRecognizerDelegate {
             if let strongSelf = self {
             
                 strongSelf.leftContainerView.frame = frame
+
                 strongSelf.mainContainerView.transform = CGAffineTransformMakeScale(SlideMenuOptions.contentViewScale, SlideMenuOptions.contentViewScale)
             }
             
@@ -203,12 +158,12 @@ class SlideMenuController: UIViewController, UIGestureRecognizerDelegate {
                 
                 if let strongSelf = self {
                 
-                    
+                    strongSelf.leftVC?.endAppearanceTransition()
                 }
         }
     }
     
-    func closeLeft() {
+    override func closeLeft() {
     
         leftVC?.beginAppearanceTransition(isLeftHidden(), animated: true)
         closeLeftWithVelocity(0)
@@ -243,25 +198,93 @@ class SlideMenuController: UIViewController, UIGestureRecognizerDelegate {
                 
                 if let strongSelf = self {
                     
-                    
+                    strongSelf.leftVC?.endAppearanceTransition()
                 }
                 
         }
     }
     
-    func toggleRight() {
-    
+    func isPointContainedWithinLeftRect(point: CGPoint) -> Bool {
+        
+        return CGRectContainsPoint(leftContainerView.frame, point)
     }
     
-    func handleLeftPanGesture(panGesture: UIPanGestureRecognizer) {
-    
+    //MARK: – UIGestureRecognizerDelegate
+    public func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
         
+        let point: CGPoint = touch.locationInView(view)
+        
+        if gestureRecognizer == leftTapGesture {
+            
+            return isLeftOpen() && !isPointContainedWithinLeftRect(point)
+            
+        }
+        
+        return true
     }
     
-    func handleRightPanGesture(panGesture: UIPanGestureRecognizer) {
-    
+    // MARK: 容器控制器相关方法
+    func setUpViewController(targetView: UIView, targetViewController: UIViewController?) {
         
+        if let viewController = targetViewController {
+            
+            addChildViewController(viewController)
+            
+            viewController.view.frame = targetView.bounds
+            
+            targetView.addSubview(viewController.view)
+            
+            viewController.didMoveToParentViewController(self)
+            
+        }
+    }
+    
+    func removeViewController(viewController: UIViewController?) {
+        
+        if let _viewController = viewController {
+            
+            _viewController.willMoveToParentViewController(nil)
+            _viewController.view.removeFromSuperview()
+            _viewController.removeFromParentViewController()
+        }
+    }
+    
+    func changeMainViewController(mainViewController: UIViewController) {
+        
+        removeViewController(mainVC)
+        
+        mainVC = mainViewController
+        
+        setUpViewController(mainContainerView, targetViewController: mainViewController)
+        
+        closeLeft()
     }
 
+}
 
+extension UIViewController {
+
+    public func slideMenuController() -> SlideMenuController? {
+        
+        var viewController: UIViewController? = self
+        
+        while viewController != nil {
+            
+            if viewController is SlideMenuController {
+                
+                return viewController as? SlideMenuController
+            }
+            
+            viewController = viewController?.parentViewController
+        }
+        
+        return nil
+    }
+    
+    public func addLeftBarButtonWithImage(buttonImage: UIImage) {
+        
+        let leftButton: UIBarButtonItem = UIBarButtonItem(image: buttonImage, style: .Plain, target: self, action: "toggleLeft")
+        
+        navigationItem.leftBarButtonItem = leftButton
+    }
 }

@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  SlideMenuDemo
 //
-//  Created by 刘延峰 on 15/11/5.
+//  Created by FrankLiu on 15/11/5.
 //  Copyright © 2015年 刘大帅. All rights reserved.
 //
 
@@ -22,15 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let leftVC: LeftViewController = LeftViewController()
         
-        let rightVC: RightViewController = RightViewController()
-        
         let navigationVC: UINavigationController = UINavigationController(rootViewController: mainVC)
         
-//        leftVC.mainViewController = navigationVC
+        let slideMenuVC = SlideMenuController(mainViewController: navigationVC, leftMenuViewController: leftVC)
         
-        let slideMenuVC = SlideMenuController(mainViewController: navigationVC, leftMenuViewController: leftVC, rightMenuViewController: rightVC)
-        
-        self.window?.backgroundColor = UIColor.greenColor()
+        self.window?.backgroundColor = UIColor.blackColor()
         
         self.window?.rootViewController = slideMenuVC
         

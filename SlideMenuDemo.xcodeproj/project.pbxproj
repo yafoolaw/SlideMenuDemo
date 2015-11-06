@@ -13,8 +13,8 @@
 		E0BCC01C1BEB01A900392CBA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0BCC01B1BEB01A900392CBA /* Assets.xcassets */; };
 		E0BCC01F1BEB01A900392CBA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E0BCC01D1BEB01A900392CBA /* LaunchScreen.storyboard */; };
 		E0BCC0271BEB069C00392CBA /* LeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BCC0261BEB069C00392CBA /* LeftViewController.swift */; };
-		E0BCC0291BEB06AC00392CBA /* RightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BCC0281BEB06AC00392CBA /* RightViewController.swift */; };
 		E0BCC02C1BEB079600392CBA /* SlideMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BCC02B1BEB079600392CBA /* SlideMenuController.swift */; };
+		E0BCC0321BEC459200392CBA /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BCC0311BEC459200392CBA /* UIViewControllerExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,8 +26,8 @@
 		E0BCC01E1BEB01A900392CBA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E0BCC0201BEB01A900392CBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E0BCC0261BEB069C00392CBA /* LeftViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftViewController.swift; sourceTree = "<group>"; };
-		E0BCC0281BEB06AC00392CBA /* RightViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RightViewController.swift; sourceTree = "<group>"; };
 		E0BCC02B1BEB079600392CBA /* SlideMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideMenuController.swift; sourceTree = "<group>"; };
+		E0BCC0311BEC459200392CBA /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +63,7 @@
 				E0BCC0141BEB01A900392CBA /* AppDelegate.swift */,
 				E0BCC0161BEB01A900392CBA /* ViewController.swift */,
 				E0BCC0261BEB069C00392CBA /* LeftViewController.swift */,
-				E0BCC0281BEB06AC00392CBA /* RightViewController.swift */,
+				E0BCC0301BEC457500392CBA /* Extension */,
 				E0BCC02A1BEB06D500392CBA /* Source */,
 				E0BCC0181BEB01A900392CBA /* Main.storyboard */,
 				E0BCC01B1BEB01A900392CBA /* Assets.xcassets */,
@@ -79,6 +79,14 @@
 				E0BCC02B1BEB079600392CBA /* SlideMenuController.swift */,
 			);
 			name = Source;
+			sourceTree = "<group>";
+		};
+		E0BCC0301BEC457500392CBA /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				E0BCC0311BEC459200392CBA /* UIViewControllerExtension.swift */,
+			);
+			name = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -154,7 +162,7 @@
 			files = (
 				E0BCC0271BEB069C00392CBA /* LeftViewController.swift in Sources */,
 				E0BCC02C1BEB079600392CBA /* SlideMenuController.swift in Sources */,
-				E0BCC0291BEB06AC00392CBA /* RightViewController.swift in Sources */,
+				E0BCC0321BEC459200392CBA /* UIViewControllerExtension.swift in Sources */,
 				E0BCC0171BEB01A900392CBA /* ViewController.swift in Sources */,
 				E0BCC0151BEB01A900392CBA /* AppDelegate.swift in Sources */,
 			);
